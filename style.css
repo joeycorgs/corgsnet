@@ -1,0 +1,52 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace; /* Hacker-like font */
+    background-color: #000; /* Black background */
+    color: #0f0; /* Green text */
+}
+
+/* Centering the content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Styling the title and cursor */
+.title {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 2rem;
+    background-color: #0f0;
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Background animation */
+body {
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+    background-size: 400% 400%;
+    animation: backgroundAnimation 20s ease infinite;
+}
+
+@keyframes backgroundAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
