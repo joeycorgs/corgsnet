@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         if (currentIndex === 0) {
-            title.querySelector('.cursor').style.display = 'inline-block';
+            title.querySelector('.cursor').style.visibility = 'visible'; // Cursor is visible
         } else {
-            title.querySelector('.cursor').style.display = 'none';
+            title.querySelector('.cursor').style.visibility = 'hidden'; // Cursor is invisible but still in the layout
         }
     }
 

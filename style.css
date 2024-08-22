@@ -10,34 +10,33 @@ body, html {
     color: #0f0;
 }
 
-/* Position the content */
-.container {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-}
-
-.title {
+/* Container for title and cursor */
+.title-wrapper {
     position: absolute;
     top: 25%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 3rem;
-    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-    display: flex; /* Ensure the cursor stays on the same line */
-    align-items: baseline; /* Align cursor and text vertically */
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
+/* Title Styling */
+.title {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+    display: inline-flex; /* Keep cursor inline with text */
+    align-items: baseline;
+}
+
+/* Cursor Styling */
 .cursor {
-    display: inline-block;
     width: 15px;
-    height: 0.9em;
+    height: 1em;
     background-color: #0f0;
     margin-left: 5px;
-    margin-bottom: -5px;
     animation: blink 1.06s steps(1, end) infinite;
     box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
-    vertical-align: baseline; /* Align with the text */
+    vertical-align: baseline; /* Align with text */
+    visibility: visible; /* Default visibility */
 }
 
 @keyframes blink {
@@ -64,20 +63,20 @@ body {
     flex-direction: column;
     position: absolute;
     top: calc(25% + 60px);
-    left: 40%; /* Adjust this to move tabs to the left */
-    transform: translateX(-50%);
+    left: 45%; /* Keep tabs horizontally centered */
+    transform: translateX(-50%); /* Center tabs */
     align-items: flex-start;
 }
 
 .tab {
-    font-size: 1.67rem; /* 33% smaller font size */
+    font-size: 1.47rem; /* 33% smaller font size */
     color: #0f0;
+    font-style:oblique;
     text-shadow: 0 0 6.67px #0f0, 0 0 13.33px #0f0, 0 0 20px #0f0; /* 33% less glow */
     padding-left: 10px; /* Adjusted padding to maintain alignment */
     margin-top: 5px;
     display: flex;
     align-items: center;
-    position: relative;
 }
 
 .tab::before {
