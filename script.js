@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.querySelector('.title');
     let currentIndex = 0;
     let tabsVisible = false;
+    let isTouch = false;
 
     function updateSelection() {
         tabs.forEach((tab, index) => {
@@ -54,15 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle touch and click event on "corgs.net"
-    title.addEventListener('touchstart', () => {
+    title.addEventListener('touchstart', (event) => {
+        event.preventDefault(); // Prevent default touch behavior
+        isTouch = true; // Mark that a touch event is happening
         if (currentIndex === 0) {
             toggleTabsVisibility();
         }
     });
+
     title.addEventListener('click', () => {
-        if (currentIndex === 0) {
+        if (!isTouch && currentIndex === 0) {
             toggleTabsVisibility();
         }
+        isTouch = false; // Reset touch flag
     });
 
     // Handle mouseover on "corgs.net" to move the cursor back
@@ -73,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle touch, click, and hover events on tabs
     tabs.forEach((tab, index) => {
-        tab.addEventListener('touchstart', () => {
+        tab.addEventListener('touchstart', (event) => {
+            event.preventDefault(); // Prevent default touch behavior
             if (tabsVisible) {
                 currentIndex = index + 1;
                 updateSelection();
@@ -83,12 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         tab.addEventListener('click', () => {
-            if (tabsVisible) {
+            if (!isTouch && tabsVisible) {
                 currentIndex = index + 1;
                 updateSelection();
                 console.log(`Selected Tab ${currentIndex}`);
                 // Add logic here to handle the tab selection
             }
+            isTouch = false; // Reset touch flag
         });
 
         tab.addEventListener('mouseover', () => {
