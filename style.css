@@ -26,15 +26,17 @@ body, html {
 
 .cursor {
     display: inline-block;
-    width: 10px;
-    height: 2rem;
-    background-color: #0f0;
+    width: 15px; /* Adjusted for a thicker cursor */
+    height: 0.9em; /* Matches the height of the text */
+    background-color: #0f0; /* Green color */
     margin-left: 5px;
-    animation: blink 1s step-end infinite;
+    margin-bottom: -5px;
+    animation: blink 0.8s steps(1, end) infinite; /* Smooth blink with single step */
+    box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0; /* Glowing effect */
 }
 
 @keyframes blink {
-    from, to { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
