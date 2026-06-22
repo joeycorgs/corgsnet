@@ -2,34 +2,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.querySelector('.tabs');
     const tabs = document.querySelectorAll('.tab');
     const title = document.querySelector('.title');
-    const panels = document.querySelectorAll('.panel');
     let currentIndex = 0;
     let tabsVisible = false;
     let isTouch = false;
 
-    function hideAllPanels() {
-        panels.forEach(p => p.classList.add('hidden'));
+    function closeAllSubtabs() {
+        document.querySelectorAll('.subtabs').forEach(s => s.classList.add('hidden'));
     }
 
     function updateSelection() {
         tabs.forEach((tab, index) => {
-            if (index === currentIndex - 1) {
-                tab.classList.add('highlighted');
-            } else {
-                tab.classList.remove('highlighted');
-            }
+            tab.classList.toggle('highlighted', index === currentIndex - 1);
         });
-        if (currentIndex === 0) {
-            title.querySelector('.cursor').style.visibility = 'visible';
-        } else {
-            title.querySelector('.cursor').style.visibility = 'hidden';
-        }
+        title.querySelector('.cursor').style.visibility = currentIndex === 0 ? 'visible' : 'hidden';
     }
 
     function toggleTabsVisibility() {
         if (tabsVisible) {
             tabsContainer.classList.add('hidden');
-            hideAllPanels();
+            closeAllSubtabs();
             tabsVisible = false;
         } else {
             tabsContainer.classList.remove('hidden');
@@ -40,27 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function activateTab(index) {
-        // index is 1-based (currentIndex convention)
-        hideAllPanels();
         const tab = tabs[index - 1];
         if (!tab) return;
-        const panelId = tab.dataset.panel;
-        if (panelId) {
-            const panel = document.getElementById(panelId);
-            if (panel) panel.classList.remove('hidden');
-        }
+        const subtabsId = tab.dataset.subtabs;
+        if (!subtabsId) return;
+        const subtabs = document.getElementById(subtabsId);
+        if (!subtabs) return;
+        // Toggle: clicking an open tab closes its subtabs
+        const isOpen = !subtabs.classList.contains('hidden');
+        closeAllSubtabs();
+        if (!isOpen) subtabs.classList.remove('hidden');
     }
 
     // Keyboard navigation
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowDown') {
-            if (tabsVisible && currentIndex < tabs.length) {
-                currentIndex++;
-            }
+            if (tabsVisible && currentIndex < tabs.length) currentIndex++;
         } else if (event.key === 'ArrowUp') {
-            if (tabsVisible && currentIndex > 0) {
-                currentIndex--;
-            }
+            if (tabsVisible && currentIndex > 0) currentIndex--;
         } else if (event.key === 'Enter') {
             if (currentIndex === 0) {
                 toggleTabsVisibility();
@@ -73,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSelection();
     });
 
-    // Click/touch on title
+    // Title click/touch
     title.addEventListener('touchstart', (event) => {
         event.preventDefault();
         isTouch = true;
@@ -90,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSelection();
     });
 
-    // Click/touch/hover on tabs
+    // Tab click/touch/hover
     tabs.forEach((tab, index) => {
         tab.addEventListener('touchstart', (event) => {
             event.preventDefault();
@@ -111,14 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         tab.addEventListener('mouseover', () => {
-            if (tabsVisible) {
-                currentIndex = index + 1;
-                updateSelection();
-            }
+            if (tabsVisible) { currentIndex = index + 1; updateSelection(); }
         });
 
-        tab.addEventListener('mouseout', () => {
-            updateSelection();
-        });
+        tab.addEventListener('mouseout', () => { updateSelection(); });
     });
 });

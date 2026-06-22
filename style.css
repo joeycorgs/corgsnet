@@ -110,40 +110,30 @@ body {
     display: none;
 }
 
-/* Content panel — appears below tabs when a tab is selected */
-.panel {
-    position: absolute;
-    top: calc(25% + 60px + (1.47rem + 5px) * 3 + 20px);
-    left: 45%;
-    transform: translateX(-50%);
+/* Subtabs — inline sub-list that expands under a tab */
+.subtabs {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    min-width: 300px;
+    padding-left: 24px;
 }
 
-.panel-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.panel-item a {
-    font-size: 1.2rem;
-    color: #0f0;
+.subtab {
+    font-size: 1.1rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-style: oblique;
+    color: #0c0;
     text-decoration: none;
-    font-family: 'Courier New', Courier, monospace;
-    text-shadow: 0 0 6px #0f0, 0 0 12px #0f0;
-    transition: text-shadow 0.2s;
+    text-shadow: 0 0 5px #0c0, 0 0 10px #0c0;
+    padding: 3px 0 3px 0;
+    display: block;
 }
 
-.panel-item a:hover {
-    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-}
-
-.panel-comment {
-    font-size: 0.85rem;
+.subtab::before {
+    content: "  > ";
     color: #0a0;
-    font-family: 'Courier New', Courier, monospace;
-    font-style: italic;
+}
+
+.subtab:hover {
+    text-shadow: 0 0 8px #0f0, 0 0 16px #0f0, 0 0 24px #0f0;
+    color: #0f0;
 }
