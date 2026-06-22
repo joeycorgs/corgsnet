@@ -109,3 +109,41 @@ body {
 .hidden {
     display: none;
 }
+
+/* Content panel — appears below tabs when a tab is selected */
+.panel {
+    position: absolute;
+    top: calc(25% + 60px + (1.47rem + 5px) * 3 + 20px);
+    left: 45%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 300px;
+}
+
+.panel-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.panel-item a {
+    font-size: 1.2rem;
+    color: #0f0;
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: 0 0 6px #0f0, 0 0 12px #0f0;
+    transition: text-shadow 0.2s;
+}
+
+.panel-item a:hover {
+    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+}
+
+.panel-comment {
+    font-size: 0.85rem;
+    color: #0a0;
+    font-family: 'Courier New', Courier, monospace;
+    font-style: italic;
+}

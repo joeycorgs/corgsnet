@@ -2,9 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.querySelector('.tabs');
     const tabs = document.querySelectorAll('.tab');
     const title = document.querySelector('.title');
+    const panels = document.querySelectorAll('.panel');
     let currentIndex = 0;
     let tabsVisible = false;
     let isTouch = false;
+
+    function hideAllPanels() {
+        panels.forEach(p => p.classList.add('hidden'));
+    }
 
     function updateSelection() {
         tabs.forEach((tab, index) => {
@@ -15,15 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         if (currentIndex === 0) {
-            title.querySelector('.cursor').style.visibility = 'visible'; // Cursor is visible
+            title.querySelector('.cursor').style.visibility = 'visible';
         } else {
-            title.querySelector('.cursor').style.visibility = 'hidden'; // Cursor is invisible but still in the layout
+            title.querySelector('.cursor').style.visibility = 'hidden';
         }
     }
 
     function toggleTabsVisibility() {
         if (tabsVisible) {
             tabsContainer.classList.add('hidden');
+            hideAllPanels();
             tabsVisible = false;
         } else {
             tabsContainer.classList.remove('hidden');
@@ -33,7 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSelection();
     }
 
-    // Handle keyboard navigation
+    function activateTab(index) {
+        // index is 1-based (currentIndex convention)
+        hideAllPanels();
+        const tab = tabs[index - 1];
+        if (!tab) return;
+        const panelId = tab.dataset.panel;
+        if (panelId) {
+            const panel = document.getElementById(panelId);
+            if (panel) panel.classList.remove('hidden');
+        }
+    }
+
+    // Keyboard navigation
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowDown') {
             if (tabsVisible && currentIndex < tabs.length) {
@@ -47,44 +65,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentIndex === 0) {
                 toggleTabsVisibility();
             } else {
-                console.log(`Selected Tab ${currentIndex}`);
-                // Add logic here to handle the tab selection
+                activateTab(currentIndex);
             }
+        } else if (event.key === 'Escape') {
+            if (tabsVisible) toggleTabsVisibility();
         }
         updateSelection();
     });
 
-    // Handle touch and click event on "corgs.net"
+    // Click/touch on title
     title.addEventListener('touchstart', (event) => {
-        event.preventDefault(); // Prevent default touch behavior
-        isTouch = true; // Mark that a touch event is happening
-        if (currentIndex === 0) {
-            toggleTabsVisibility();
-        }
+        event.preventDefault();
+        isTouch = true;
+        if (currentIndex === 0) toggleTabsVisibility();
     });
 
     title.addEventListener('click', () => {
-        if (!isTouch && currentIndex === 0) {
-            toggleTabsVisibility();
-        }
-        isTouch = false; // Reset touch flag
+        if (!isTouch && currentIndex === 0) toggleTabsVisibility();
+        isTouch = false;
     });
 
-    // Handle mouseover on "corgs.net" to move the cursor back
     title.addEventListener('mouseover', () => {
         currentIndex = 0;
         updateSelection();
     });
 
-    // Handle touch, click, and hover events on tabs
+    // Click/touch/hover on tabs
     tabs.forEach((tab, index) => {
         tab.addEventListener('touchstart', (event) => {
-            event.preventDefault(); // Prevent default touch behavior
+            event.preventDefault();
             if (tabsVisible) {
                 currentIndex = index + 1;
                 updateSelection();
-                console.log(`Selected Tab ${currentIndex}`);
-                // Add logic here to handle the tab selection
+                activateTab(currentIndex);
             }
         });
 
@@ -92,10 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isTouch && tabsVisible) {
                 currentIndex = index + 1;
                 updateSelection();
-                console.log(`Selected Tab ${currentIndex}`);
-                // Add logic here to handle the tab selection
+                activateTab(currentIndex);
             }
-            isTouch = false; // Reset touch flag
+            isTouch = false;
         });
 
         tab.addEventListener('mouseover', () => {
