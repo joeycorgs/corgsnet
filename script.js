@@ -368,6 +368,12 @@ function initInteraction() {
     tabsContainer.addEventListener('touchstart', async e => {
         const el = e.target.closest('.tab, .subtab');
         if (!el || !tabsVisible) return;
+        // For <a> links let native tap navigate — don't block it with preventDefault
+        if (el.tagName === 'A' && el.getAttribute('href')) {
+            const i = getNavItems().findIndex(it => it.el === el);
+            if (i !== -1) { currentIndex = i + 1; updateHighlight(); }
+            return;
+        }
         e.preventDefault(); isTouch = true;
         const i = getNavItems().findIndex(it => it.el === el);
         if (i !== -1) { currentIndex = i + 1; await activateItem(); }
