@@ -1,4 +1,6 @@
-/* General Reset */
+/* ─── Reset & base ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
 body, html {
     margin: 0;
     padding: 0;
@@ -6,114 +8,174 @@ body, html {
     height: 100%;
     overflow: hidden;
     font-family: 'Courier New', Courier, monospace;
-    background-color: #000;
+    background: #000;
     color: #0f0;
 }
 
-/* Container for title and cursor */
-.title-wrapper {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap; /* Prevent text from wrapping */
+/* ─── Boot / Login overlay ──────────────────────────────────────────────── */
+#boot-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 200;
 }
 
-/* Title Styling */
+#boot-screen,
+#login-screen {
+    position: absolute;
+    inset: 0;
+    padding: 24px 36px;
+    overflow-y: auto;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    color: #0e0;
+    text-shadow: 0 0 4px #0e0;
+    scrollbar-width: none;
+}
+#boot-screen::-webkit-scrollbar,
+#login-screen::-webkit-scrollbar { display: none; }
+
+.access-granted {
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: #0f0;
+    text-shadow:
+        0 0 6px  #0f0,
+        0 0 14px #0f0,
+        0 0 30px #0f0,
+        0 0 60px #0f0;
+}
+
+/* ─── Matrix canvas & terminal text ─────────────────────────────────────── */
+#matrix-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+#matrix-text {
+    position: absolute;
+    bottom: 64px;
+    left: 56px;
+    z-index: 2;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: #0f0;
+    text-shadow: 0 0 5px #0f0, 0 0 12px #0f0;
+    background: rgba(0, 0, 0, 0.68);
+    border-left: 2px solid #0d0;
+    padding: 14px 24px;
+    min-width: 360px;
+}
+
+/* ─── Main content ───────────────────────────────────────────────────────── */
+#main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 40%, rgba(0,18,0,0.35) 0%, #000 100%);
+}
+
+/* Shared column that positions the title and tabs together so the
+   tabs always appear flush-left under the "c" in corgs.net */
+.page-center {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: nowrap;
+}
+
+/* ─── Title ──────────────────────────────────────────────────────────────── */
+.title-wrapper {
+    user-select: none;
+    margin-bottom: 10px;
+}
+
 .title {
     font-size: 3rem;
-    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-    display: inline-flex; /* Keep cursor inline with text */
+    color: #0f0;
+    text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0;
+    display: inline-flex;
     align-items: baseline;
 }
 
-/* Cursor Styling */
 .cursor {
+    display: inline-block;
     width: 15px;
     height: 1em;
-    background-color: #0f0;
+    background: #0f0;
     margin-left: 5px;
+    vertical-align: baseline;
     animation: blink 1.06s steps(1, end) infinite;
     box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
-    vertical-align: baseline; /* Align with text */
-    visibility: visible; /* Default visibility */
 }
 
 @keyframes blink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+    50%       { opacity: 0; }
 }
 
-/* Background animation */
-body {
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
-    background-size: 400% 400%;
-    animation: backgroundAnimation 20s ease infinite;
-}
-
-@keyframes backgroundAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Tab Styling */
-.tabs {
+/* ─── Tabs container (flows naturally below title) ───────────────────────── */
+#tabs-container {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: calc(25% + 60px);
-    left: 45%; /* Keep tabs horizontally centered */
-    transform: translateX(-50%); /* Center tabs */
     align-items: flex-start;
 }
 
 .tab {
-    font-size: 1.47rem; /* 33% smaller font size */
+    font-size: 1.47rem;
+    font-style: oblique;
     color: #0f0;
-    font-style:oblique;
-    text-shadow: 0 0 6.67px #0f0, 0 0 13.33px #0f0, 0 0 20px #0f0; /* 33% less glow */
-    padding-left: 10px; /* Adjusted padding to maintain alignment */
-    margin-top: 5px;
+    text-shadow: 0 0 6px #0f0, 0 0 13px #0f0, 0 0 20px #0f0;
+    margin-top: 4px;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    min-height: 1.9rem;
+    user-select: none;
 }
 
 .tab::before {
     content: "> ";
     margin-right: 5px;
     color: #0f0;
-    text-shadow: 0 0 6.67px #0f0, 0 0 13.33px #0f0, 0 0 20px #0f0; /* 33% less glow */
+    text-shadow: 0 0 6px #0f0, 0 0 13px #0f0;
 }
 
 .tab.highlighted {
-    animation: blinkTab 1.06s steps(1, end) infinite; /* 33% slower blink */
-    text-shadow: 0 0 6.67px #0f0, 0 0 13.33px #0f0, 0 0 20px #0f0; /* 33% less glow */
+    animation: blinkTab 1.06s steps(1, end) infinite;
+}
+.tab.highlighted::before {
+    animation: blinkTabCaret 1.06s steps(1, end) infinite;
 }
 
 @keyframes blinkTab {
-    0%, 100% { background-color: #0f0; color: #000; box-shadow: 0 0 3.33px #0f0, 0 0 6.67px #0f0, 0 0 13.33px #0f0; /* 33% less glow */ }
-    50% { background-color: #000; color: #0f0; box-shadow: none; }
+    0%, 100% {
+        background: #0f0;
+        color: #000;
+        box-shadow: 0 0 4px #0f0, 0 0 10px #0f0;
+    }
+    50% {
+        background: #000;
+        color: #0f0;
+        box-shadow: none;
+    }
 }
-
-.tab.highlighted::before {
-    animation: blinkTabCaret 1.06s steps(1, end) infinite; /* 33% slower blink */
-}
-
 @keyframes blinkTabCaret {
     0%, 100% { color: #000; }
-    50% { color: #0f0; }
+    50%       { color: #0f0; }
 }
 
-/* Hidden class to initially hide the tabs */
-.hidden {
-    display: none;
-}
-
-/* Subtabs — inline sub-list that expands under a tab */
+/* ─── Subtabs ────────────────────────────────────────────────────────────── */
 .subtabs {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     padding-left: 24px;
 }
 
@@ -124,8 +186,11 @@ body {
     color: #0c0;
     text-decoration: none;
     text-shadow: 0 0 5px #0c0, 0 0 10px #0c0;
-    padding: 3px 0 3px 0;
+    padding: 3px 0;
     display: block;
+    cursor: pointer;
+    min-height: 1.5rem;
+    user-select: none;
 }
 
 .subtab::before {
@@ -133,7 +198,8 @@ body {
     color: #0a0;
 }
 
-.subtab:hover {
-    text-shadow: 0 0 8px #0f0, 0 0 16px #0f0, 0 0 24px #0f0;
+.subtab:hover,
+.subtab.highlighted {
     color: #0f0;
+    text-shadow: 0 0 8px #0f0, 0 0 16px #0f0, 0 0 28px #0f0;
 }

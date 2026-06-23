@@ -8,21 +8,37 @@
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
-    <div class="container">
-        <div class="title-wrapper">
-            <div class="title">
-                corgs.net<span class="cursor"></span>
+
+    <!-- Boot overlay (covers screen during intro) -->
+    <div id="boot-overlay">
+        <div id="boot-screen"></div>
+        <div id="login-screen" style="display:none"></div>
+        <canvas id="matrix-canvas" style="display:none"></canvas>
+        <div id="matrix-text" style="display:none"></div>
+    </div>
+
+    <!-- Main content — both title and tabs live in .page-center so they
+         share the same origin and the tabs always appear directly below
+         the title, left-aligned with the "c" in corgs.net -->
+    <div id="main-content" style="opacity:0;pointer-events:none">
+        <div class="page-center">
+            <div class="title-wrapper" id="title-wrapper">
+                <div class="title" id="main-title">
+                    <span id="title-text"></span><span class="cursor"></span>
+                </div>
             </div>
-        </div>
-        <div class="tabs hidden">
-            <div class="tab" data-subtabs="projects-subtabs"> Projects</div>
-            <div class="subtabs hidden" id="projects-subtabs">
-                <a class="subtab" href="https://dopamineshop.co" target="_blank" rel="noopener">dopamineshop.co</a>
+            <div id="tabs-container" style="display:none">
+                <div class="tab" data-subtabs="projects-subtabs" data-label=" Projects"></div>
+                <div class="subtabs" id="projects-subtabs" style="display:none">
+                    <a class="subtab" href="https://dopamineshop.co" target="_blank"
+                       rel="noopener" data-label=" dopamineshop.co"></a>
+                </div>
+                <div class="tab" data-label=" Tab 2"></div>
+                <div class="tab" data-label=" Tab 3"></div>
             </div>
-            <div class="tab"> Tab 2</div>
-            <div class="tab"> Tab 3</div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
