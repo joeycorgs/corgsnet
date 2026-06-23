@@ -44,7 +44,7 @@ async function fadeOut(el, ms = 280) {
 async function runBoot() {
     const s = document.getElementById('boot-screen');
 
-    await typeLine(s, 'CORGS-BIOS v2.069   Copyright (C) 1994-2026 CORGS Corporation', 5);
+    await typeLine(s, 'CORGS-BIOS v2.069   Copyright (C) 1999-2026 CORGS Corporation', 5);
     await blank(s);
     await typeLine(s, 'CPU: CORGI-9000 Hexacore @ 3.14 GHz                    [OK]', 4);
     await typeLine(s, 'Memory Test: 2097152K OK', 4);
@@ -56,11 +56,11 @@ async function runBoot() {
     await typeLine(s, 'Detecting Secondary Master ...... [USB_3.0_HUB]', 4);
     await sleep(50);
     await blank(s);
-    await progressBar(s, 'Loading CORGS-OS v6.66  ', 650);
+    await progressBar(s, 'Loading CORGS-OS v6.70  ', 650);
     await sleep(70);
     await blank(s);
-    await typeLine(s, 'CORGS-OS v6.66 [Build 1337-RELEASE]', 4);
-    await typeLine(s, '(c) 2026 CORGS Corporation. All rights reserved.', 4);
+    await typeLine(s, 'CORGS-OS v6.70 [Build 1337-RELEASE]', 4);
+    await typeLine(s, '(c) 1999-2026 CORGS Corporation. All rights reserved.', 4);
     await sleep(80);
     await blank(s);
     await typeLine(s, 'Starting subsystems...', 7);
@@ -82,7 +82,7 @@ async function runLogin() {
     s.style.display = 'block';
 
     await sleep(80);
-    await typeLine(s, 'CORGS-OS v6.66 — Secure Shell', 8);
+    await typeLine(s, 'CORGS-OS v6.70 — Secure Shell', 8);
     await blank(s);
 
     // Username: typed with natural jitter
@@ -90,7 +90,7 @@ async function runLogin() {
     s.appendChild(userLine);
     for (const ch of 'login: ') { userLine.textContent += ch; await sleep(7); }
     await sleep(200);
-    for (const ch of 'j0ey') { userLine.textContent += ch; await sleep(70 + Math.random() * 40); }
+    for (const ch of 'admin') { userLine.textContent += ch; await sleep(70 + Math.random() * 40); }
     await sleep(160);
 
     // Password: dots appear with jitter
@@ -115,7 +115,7 @@ async function runLogin() {
     await blank(s);
     await typeLine(s, 'ACCESS GRANTED', 15, 'access-granted');
     await sleep(100);
-    await typeLine(s, 'Welcome back, j0ey.', 18);
+    await typeLine(s, 'Welcome back.', 18);
     await sleep(80);
     await typeLine(s, 'Establishing encrypted session...', 12);
     await sleep(300);
